@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Learn Redux (Contine) case: Todos
+
+Hello everyone, this is my repository of how I understand what it is about redux, and this is also still not optimal enough because I just know about redux and I will continue to try to practice it to be maximized for front end web development. and now I am implementing redux for the todo project.
+
+## Introduction Redux
+
+Redux is a powerful tool for managing application state in JavaScript, particularly with frameworks like React. By following along with this project, you'll learn the core concepts of Redux, including actions, reducers, store, and middleware.
+
+## Tech Stack
+
+This project uses the following technologies:
+
+1. NextJS (latest)
+2. React-redux
+3. Redux toolkit
+4. Shadcn UI
+5. Lucide-react
+6. TailwindCSS
 
 ## Getting Started
 
-First, run the development server:
+To get started with this project, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the repository**:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   git clone https://github.com/Mustofawho0/redux-todos.git
+   cd learn-redux
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Install dependencies**:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Run the project**:
+   ```bash
+   npm start
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+## Learn More About Redux
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. [Official Redux Documentation](https://redux.js.org/)
+2. [Redux Toolkit Documentation](https://redux-toolkit.js.org/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
+This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/license/mit) file for details.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**Feel free to customize the content as needed, such as adding specific instructions or additional sections relevant to your project.**
