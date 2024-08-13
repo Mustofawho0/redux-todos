@@ -2,10 +2,6 @@
 
 Hello everyone, this is my repository of how I understand what it is about redux, and this is also still not optimal enough because I just know about redux and I will continue to try to practice it to be maximized for front end web development. and now I am implementing redux for the todo project.
 
-## Introduction Redux
-
-Redux is a powerful tool for managing application state in JavaScript, particularly with frameworks like React. By following along with this project, you'll learn the core concepts of Redux, including actions, reducers, store, and middleware.
-
 ## Tech Stack
 
 This project uses the following technologies:
