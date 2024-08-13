@@ -28,11 +28,13 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
+import { updateTodo, deleteTodo, statusTodo } from '@/features/todo/todo-slice';
+import { useDispatch } from 'react-redux';
 
 export type Todos = {
   id: number;
   title: string;
-  status: 'processing' | 'complete';
+  status: 'Processing' | 'Complete';
 };
 
 export const columns: ColumnDef<Todos>[] = [
@@ -95,13 +97,31 @@ export const columns: ColumnDef<Todos>[] = [
     header: 'Toggle',
     cell: ({ row }) => {
       const toggle = row.original;
+      const dispatch = useDispatch();
+
+      const onHandleChangeStatus = () => {
+        const newStatus =
+          toggle.status === 'Processing' ? 'Complete' : 'Processing';
+        dispatch(
+          statusTodo({
+            id: toggle.id,
+            status: newStatus,
+          })
+        );
+        toast(
+          `Todo has been ${
+            newStatus === 'Complete' ? 'completed' : 'set to processing'
+          }`
+        );
+      };
+
       return (
         <div className='flex items-center space-x-2'>
           <Switch
-            id='completed'
-            onClick={() => navigator.clipboard.writeText(toggle.id.toString())}
+            checked={toggle.status === 'Complete'}
+            onClick={onHandleChangeStatus}
           />
-          <Label htmlFor='completed'>Complete</Label>
+          <Label>Complete</Label>
         </div>
       );
     },
@@ -111,16 +131,47 @@ export const columns: ColumnDef<Todos>[] = [
     header: 'Action',
     cell: ({ row }) => {
       const action = row.original;
+      // const todos = useSelector((state: any) => state.todos.todos);
+      const dispatch = useDispatch();
+      const [selectedId, setSelectedId] = React.useState<number | null>(
+        action.id
+      );
+      const [isDialogOpen, setIsDialogOpen] = React.useState(false);
       const [editTextarea, setEditTextarea] = React.useState(action.title);
 
       const onHandleSaveChanges = () => {
-        toast('Todos has been changes');
+        if (selectedId) {
+          dispatch(
+            updateTodo({
+              id: action.id,
+              title: editTextarea,
+            })
+          );
+          toast('Todos has been changes');
+          setIsDialogOpen(false);
+        }
+      };
+
+      const onHandleDeletedTodos = () => {
+        dispatch(
+          deleteTodo({
+            id: action.id,
+          })
+        );
+        toast('Deleted success');
+      };
+
+      const onHandleGetId = () => {
+        setSelectedId(action.id);
+        // setIsDialogOpen(true);
       };
       return (
         <div className='flex items-center space-x-2'>
-          <Dialog>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant={'outline'}>Edit todos</Button>
+              <Button variant={'outline'} onClick={onHandleGetId}>
+                Edit todos
+              </Button>
             </DialogTrigger>
             <DialogContent className='sm:max-w[425px]'>
               <DialogHeader>
@@ -145,19 +196,23 @@ export const columns: ColumnDef<Todos>[] = [
           </Dialog>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant={'destructive'}>Delete</Button>
+              <Button variant={'destructive'} onClick={onHandleGetId}>
+                Delete
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  your todos.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
+                <AlertDialogAction onClick={onHandleDeletedTodos}>
+                  Continue
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
