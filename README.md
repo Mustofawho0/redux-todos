@@ -43,5 +43,3 @@ To get started with this project, follow these steps:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/license/mit) file for details.
-
-**Feel free to customize the content as needed, such as adding specific instructions or additional sections relevant to your project.**
