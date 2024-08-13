@@ -21,7 +21,10 @@ To get started with this project, follow these steps:
 
    ```bash
    git clone https://github.com/Mustofawho0/redux-todos.git
-   cd learn-redux
+   ```
+
+   ```bash
+    cd ..
    ```
 
 2. **Install dependencies**:
