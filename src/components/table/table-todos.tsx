@@ -19,8 +19,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterTodo } from '@/features/todo/todo-slice';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -37,8 +48,19 @@ export function DataTable<TData, TValue>({
   );
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const filteredTodos = useSelector((state: any) => state.todos.filter);
+  const dispatch = useDispatch();
+
+  const handleFilter = (status: string) => {
+    dispatch(
+      filterTodo({
+        status,
+      })
+    );
+  };
+
   const table = useReactTable({
-    data,
+    data: filteredTodos,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -56,7 +78,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className='py-2'>
+      <div className='py-2 flex justify-between items-center'>
         <Input
           placeholder='Filter todos...'
           value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
@@ -65,6 +87,19 @@ export function DataTable<TData, TValue>({
           }
           className='max-w-sm'
         />
+        <Select onValueChange={handleFilter}>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='Filter status' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Status</SelectLabel>
+              <SelectItem value='All'>All</SelectItem>
+              <SelectItem value='In Progress'>In Progress</SelectItem>
+              <SelectItem value='Done'>Done</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       <div className='rounded-md border'>
         <Table>

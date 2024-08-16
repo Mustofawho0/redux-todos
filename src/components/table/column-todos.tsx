@@ -34,7 +34,7 @@ import { useDispatch } from 'react-redux';
 export type Todos = {
   id: number;
   title: string;
-  status: 'Processing' | 'Complete';
+  status: 'In Progress' | 'Done';
 };
 
 export const columns: ColumnDef<Todos>[] = [
@@ -101,7 +101,7 @@ export const columns: ColumnDef<Todos>[] = [
 
       const onHandleChangeStatus = () => {
         const newStatus =
-          toggle.status === 'Processing' ? 'Complete' : 'Processing';
+          toggle.status === 'In Progress' ? 'Done' : 'In Progress';
         dispatch(
           statusTodo({
             id: toggle.id,
@@ -110,7 +110,7 @@ export const columns: ColumnDef<Todos>[] = [
         );
         toast(
           `Todo has been ${
-            newStatus === 'Complete' ? 'completed' : 'set to processing'
+            newStatus === 'Done' ? 'Done' : 'set to In Progress'
           }`
         );
       };
@@ -118,10 +118,10 @@ export const columns: ColumnDef<Todos>[] = [
       return (
         <div className='flex items-center space-x-2'>
           <Switch
-            checked={toggle.status === 'Complete'}
+            checked={toggle.status === 'Done'}
             onClick={onHandleChangeStatus}
           />
-          <Label>Complete</Label>
+          <Label>Done</Label>
         </div>
       );
     },
