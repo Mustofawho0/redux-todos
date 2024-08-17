@@ -20,7 +20,7 @@ export const todoSlice = createSlice({
   reducers: {
     addTodo: (state, action) => {
       const newTodo = {
-        id: state.todos.length + 1,
+        id: Date.now(),
         title: action.payload.title,
         status: 'In Progress',
       };
