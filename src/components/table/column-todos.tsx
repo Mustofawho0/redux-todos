@@ -189,41 +189,40 @@ export const columns: ColumnDef<Todos>[] = [
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align='end'>
-                <DropdownMenuItem>
-                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button
-                        onClick={onHandleGetId}
-                        variant={'ghost'}
-                        className='flex items-center justify-center gap-2 h-5'
-                      >
-                        <Pencil size={15} />
-                        Update
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      onClick={onHandleGetId}
+                      variant={'ghost'}
+                      className='flex items-center justify-center w-full gap-2 h-8'
+                    >
+                      <Pencil size={15} />
+                      Update
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className='sm:max-w[425px]'>
+                    <DialogHeader>
+                      <DialogTitle>Edit todos</DialogTitle>
+                      <DialogDescription>
+                        Make changes to your todos here. Click save when you're
+                        done.
+                      </DialogDescription>
+                      <DialogDescription>
+                        <Textarea
+                          placeholder='Type your todos here'
+                          value={editTextarea}
+                          onChange={(e) => setEditTextarea(e.target.value)}
+                        />
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button type='submit' onClick={onHandleSaveChanges}>
+                        Save changes
                       </Button>
-                    </DialogTrigger>
-                    <DialogContent className='sm:max-w[425px]'>
-                      <DialogHeader>
-                        <DialogTitle>Edit todos</DialogTitle>
-                        <DialogDescription>
-                          Make changes to your todos here. Click save when
-                          you're done.
-                        </DialogDescription>
-                        <DialogDescription>
-                          <Textarea
-                            placeholder='Type your todos here'
-                            value={editTextarea}
-                            onChange={(e) => setEditTextarea(e.target.value)}
-                          />
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter>
-                        <Button type='submit' onClick={onHandleSaveChanges}>
-                          Save changes
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </DropdownMenuItem>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button

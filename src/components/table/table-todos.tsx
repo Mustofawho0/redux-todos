@@ -85,7 +85,7 @@ export function DataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn('title')?.setFilterValue(event.target.value)
           }
-          className='mobile:w-[35vw] mobile:text-xs sm:max-w-sm'
+          className='mobile:w-[35vw] mobile:text-xs lg:max-w-sm sm:w-[40vw]'
         />
         <Select onValueChange={handleFilter}>
           <SelectTrigger className='w-[180px] mobile:w-[35vw]'>
