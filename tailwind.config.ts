@@ -18,6 +18,17 @@ const config = {
         '2xl': '1400px',
       },
     },
+    screens: {
+      mobile: { max: '639px' },
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      xxl: '1536px',
+      fhd: { min: '1920px' }, // Full HD
+      qhd: { min: '2560px' }, // Quad HD
+      uhd: { min: '3840px' }, // Ultra HD
+    },
     extend: {
       colors: {
         border: 'hsl(var(--border))',

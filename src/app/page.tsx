@@ -22,7 +22,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { Plus } from 'lucide-react';
 import { DataTable } from '@/components/table/table-todos';
-import { Todos, columns } from '@/components/table/column-todos';
+import { columns } from '@/components/table/column-todos';
 import { toast } from 'sonner';
 import dynamic from 'next/dynamic';
 
@@ -55,66 +55,68 @@ export default function Home() {
   });
 
   return (
-    <main>
-      <div className={cn('min-h-screen flex items-center justify-center')}>
-        {loading ? (
-          <Loading />
-        ) : (
-          <Card className='shadow-lg'>
-            <CardHeader>
-              <CardTitle className='text-center font-sans tracking-wide'>
-                List my ToDo 🐣
-              </CardTitle>
-              <CardDescription className='text-center'>
-                This is todos to help you manage and prioritize you taks.{' '}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form
-                  className='flex items-center gap-5'
-                  onSubmit={form.handleSubmit(handleOnSubmit)}
-                >
-                  <FormField
-                    control={form.control}
-                    name='todos'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Todos :</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder='add your todos...'
-                            {...field}
-                            value={value}
-                            onChange={(e: any) => setValue(e.target.value)}
-                            className='w-[50vw]'
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <div className='mt-8'>
-                    <Button
-                      type='submit'
-                      onClick={() =>
-                        toast(`${value}`, {
-                          description: 'Has been created',
-                        })
-                      }
-                      disabled={!value}
-                    >
-                      <Plus />
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
-            <CardContent>
-              <DataTable columns={columns} data={todos} />
-            </CardContent>
-          </Card>
-        )}
-      </div>
-    </main>
+    <div
+      className={cn(
+        'min-h-screen flex items-center justify-center mobile:px-2 overflow-hidden'
+      )}
+    >
+      {loading ? (
+        <Loading />
+      ) : (
+        <Card className='shadow-lg'>
+          <CardHeader>
+            <CardTitle className='text-center font-sans tracking-wide'>
+              List my ToDo 🐣
+            </CardTitle>
+            <CardDescription className='text-center'>
+              This is todos to help you manage and prioritize you taks.{' '}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                className='flex items-center gap-5'
+                onSubmit={form.handleSubmit(handleOnSubmit)}
+              >
+                <FormField
+                  control={form.control}
+                  name='todos'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Todos :</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder='add your todos...'
+                          {...field}
+                          value={value}
+                          onChange={(e: any) => setValue(e.target.value)}
+                          className='w-[50vw] mobile:w-[59vw] mobile:text-xs'
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <div className='mt-8 mobile:ml-8'>
+                  <Button
+                    type='submit'
+                    onClick={() =>
+                      toast(`${value}`, {
+                        description: 'Has been created',
+                      })
+                    }
+                    disabled={!value}
+                  >
+                    <Plus />
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+          <CardContent>
+            <DataTable columns={columns} data={todos} />
+          </CardContent>
+        </Card>
+      )}
+    </div>
   );
 }

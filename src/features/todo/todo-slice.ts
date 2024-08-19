@@ -52,13 +52,6 @@ export const todoSlice = createSlice({
       state.filter = state.filter.map((todo) =>
         todo.id === id ? { ...todo, status } : todo
       );
-
-      // state.filter = state.todos.filter((todo) => {
-      //   if (todo.id === id) {
-      //     return status !== 'Done';
-      //   }
-      //   return true;
-      // });
     },
     filterTodo: (state, action) => {
       const { status } = action.payload;
