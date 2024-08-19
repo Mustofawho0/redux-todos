@@ -11,7 +11,8 @@ const fontSans = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: 'Todo',
+  title: 'Todo App',
+  description: 'App for you manage taks',
 };
 
 export default function RootLayout({
