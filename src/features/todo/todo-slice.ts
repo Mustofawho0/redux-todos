@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 export interface Todo {
-  id: number;
+  id: string;
   title: string;
   status: string;
+  priority?: boolean;
 }
 export interface TodoState {
   todos: Todo[];
@@ -20,9 +20,10 @@ export const todoSlice = createSlice({
   reducers: {
     addTodo: (state, action) => {
       const newTodo = {
-        id: Date.now(),
+        id: `TASK - ${Math.floor(Math.random() * 12345)}`,
         title: action.payload.title,
         status: 'In Progress',
+        priority: false,
       };
       state.todos.push(newTodo);
       state.filter.push(newTodo);
@@ -61,9 +62,33 @@ export const todoSlice = createSlice({
         state.filter = state.todos.filter((todo) => todo.status === status);
       }
     },
+    priorityTodo: (state, action) => {
+      const { id } = action.payload;
+      const priorityTodo = state.todos.find((todo) => todo.id === id);
+      if (priorityTodo) {
+        priorityTodo.priority = !priorityTodo.priority;
+      }
+
+      state.filter = state.todos.sort((a, b) => {
+        if (a.priority === b.priority) {
+          return 0;
+        }
+        return a.priority ? -1 : 1;
+      });
+
+      state.filter = state.todos.filter(
+        (todo) => todo.priority || todo.status === 'In Progress'
+      );
+    },
   },
 });
 
-export const { addTodo, updateTodo, deleteTodo, statusTodo, filterTodo } =
-  todoSlice.actions;
+export const {
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  statusTodo,
+  filterTodo,
+  priorityTodo,
+} = todoSlice.actions;
 export default todoSlice.reducer;

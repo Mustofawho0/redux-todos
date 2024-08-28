@@ -30,13 +30,17 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Sparkles } from 'lucide-react';
+import { toast } from 'sonner';
 import { useSelector, useDispatch } from 'react-redux';
-import { filterTodo } from '@/features/todo/todo-slice';
+import { filterTodo, priorityTodo } from '@/features/todo/todo-slice';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
+
+type rowSelectionState = Record<string, boolean>;
 
 export function DataTable<TData, TValue>({
   columns,
@@ -46,7 +50,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [rowSelection, setRowSelection] = React.useState<rowSelectionState>({});
 
   const filteredTodos = useSelector((state: any) => state.todos.filter);
   const dispatch = useDispatch();
@@ -57,6 +61,19 @@ export function DataTable<TData, TValue>({
         status,
       })
     );
+  };
+
+  const handlePriority = (id: string[]) => {
+    id.forEach((id) => {
+      const todo = filteredTodos.find((todo: any) => todo.id === id);
+      const isFavorite = todo?.priority;
+
+      dispatch(priorityTodo({ id }));
+
+      const status = isFavorite ? 'set not to be favorite' : 'favorite';
+
+      toast(`Todo has been ${status}`);
+    });
   };
 
   const table = useReactTable({
@@ -78,17 +95,35 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className='py-2 flex justify-between items-center'>
-        <Input
-          placeholder='Filter todos...'
-          value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('title')?.setFilterValue(event.target.value)
-          }
-          className='mobile:w-[35vw] mobile:text-xs lg:max-w-sm sm:w-[40vw]'
-        />
+      <div className='py-2 flex justify-between items-center gap-2'>
+        <div className='flex items-center gap-2'>
+          <Input
+            placeholder='Filter todos...'
+            value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
+            onChange={(event) =>
+              table.getColumn('title')?.setFilterValue(event.target.value)
+            }
+            className='mobile:w-[35vw] mobile:text-xs w-[15vw]'
+          />
+          <Button
+            variant={'outline'}
+            className='flex items-center gap-1 text-gray-600 hover:bg-gray-800 hover:text-white mobile:text-xs'
+            onClick={() => {
+              const selectedId = Object.keys(rowSelection)
+                .filter((key) => rowSelection[key])
+                .map((key) => filteredTodos[key].id);
+
+              if (selectedId.length) {
+                handlePriority(selectedId);
+              }
+            }}
+          >
+            <Sparkles className='h-4 w-4 mobile:h-3 mobile:w-3 hover:text-white' />
+            Priority
+          </Button>
+        </div>
         <Select onValueChange={handleFilter}>
-          <SelectTrigger className='w-[180px] mobile:w-[35vw]'>
+          <SelectTrigger className='w-[180px] mobile:w-[30vw]'>
             <SelectValue placeholder='Filter status' />
           </SelectTrigger>
           <SelectContent>

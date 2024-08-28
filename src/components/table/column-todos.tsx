@@ -1,9 +1,16 @@
 'use client';
 import * as React from 'react';
+import Image from 'next/image';
 import { ColumnDef } from '@tanstack/react-table';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import {
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+  Timer,
+  CheckCheck,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -29,10 +36,10 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
+import { Checkbox } from '@/components/ui/checkbox';
 import { updateTodo, deleteTodo, statusTodo } from '@/features/todo/todo-slice';
 import { useDispatch } from 'react-redux';
 
@@ -40,20 +47,91 @@ export type Todos = {
   id: number;
   title: string;
   status: 'In Progress' | 'Done';
+  priority?: boolean;
 };
 
 export const columns: ColumnDef<Todos>[] = [
   {
+    id: 'select',
+    accessorKey: 'id',
+    header: ({ table }) => (
+      <div className='flex items-center gap-2'>
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label='Select all'
+        />{' '}
+        Task
+      </div>
+    ),
+    cell: ({ row }) => {
+      const task = row.original;
+      return (
+        <div className='flex items-center gap-2'>
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(values) => {
+              row.toggleSelected(!!values);
+            }}
+            aria-label='Select row'
+          />
+          {task.id}
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: 'title',
-
     header: 'Todos',
-    cell: (row) => row.getValue(),
+    cell: ({ row }) => {
+      const todos = row.original;
+
+      return (
+        <div className='flex items-center gap-1'>
+          {todos.priority === false ? (
+            <>{todos.title}</>
+          ) : (
+            <>
+              {todos.title}
+              <Image
+                src={'./favorite-svgrepo-com.svg'}
+                alt='favorite'
+                width={10000}
+                height={10000}
+                loading='lazy'
+                className='w-4 h-4 object-cover'
+              />
+            </>
+          )}
+        </div>
+      );
+    },
   },
   {
     accessorKey: 'status',
-
     header: 'Status',
-    cell: (row) => row.getValue(),
+    cell: ({ row }) => {
+      const status = row.original;
+
+      return (
+        <div className='flex items-center gap-2'>
+          {status.status === 'In Progress' ? (
+            <>
+              <Timer size={20} /> {status.status}
+            </>
+          ) : (
+            <>
+              <CheckCheck size={20} /> {status.status}
+            </>
+          )}
+        </div>
+      );
+    },
   },
   {
     id: 'toggle',
