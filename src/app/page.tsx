@@ -57,7 +57,7 @@ export default function Home() {
   return (
     <div
       className={cn(
-        'min-h-screen flex items-center justify-center mobile:px-2 overflow-hidden'
+        'min-h-screen flex items-center justify-center mobile:px-2 overflow-visible'
       )}
     >
       {loading ? (
@@ -96,7 +96,7 @@ export default function Home() {
                     </FormItem>
                   )}
                 />
-                <div className='mt-8 mobile:ml-8'>
+                <div className='mt-8 mobile:ml-4'>
                   <Button
                     type='submit'
                     onClick={() =>

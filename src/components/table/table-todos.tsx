@@ -103,11 +103,11 @@ export function DataTable<TData, TValue>({
             onChange={(event) =>
               table.getColumn('title')?.setFilterValue(event.target.value)
             }
-            className='mobile:w-[35vw] mobile:text-xs w-[15vw]'
+            className='mobile:w-[26vw] mobile:text-xs w-[15vw] mobile:h-8'
           />
           <Button
             variant={'outline'}
-            className='flex items-center gap-1 text-gray-600 hover:bg-gray-800 hover:text-white mobile:text-xs'
+            className='flex items-center gap-1 text-gray-600 hover:bg-gray-800 hover:text-white mobile:text-xs mobile:h-8 px-3'
             onClick={() => {
               const selectedId = Object.keys(rowSelection)
                 .filter((key) => rowSelection[key])
@@ -123,7 +123,7 @@ export function DataTable<TData, TValue>({
           </Button>
         </div>
         <Select onValueChange={handleFilter}>
-          <SelectTrigger className='w-[180px] mobile:w-[30vw]'>
+          <SelectTrigger className='w-[180px] mobile:w-[30vw] mobile:h-8'>
             <SelectValue placeholder='Filter status' />
           </SelectTrigger>
           <SelectContent>
@@ -145,7 +145,7 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className='font-bold tracking-wide text-black'
+                      className='font-bold tracking-wide text-black '
                     >
                       {header.isPlaceholder
                         ? null
@@ -167,7 +167,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className=''>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
